@@ -1,5 +1,5 @@
-# Base image
-FROM node:19-bullseye
+# Base image: Node.js 20 LTS
+FROM node:20-bullseye
 
 # Set working directory
 WORKDIR /app
@@ -13,9 +13,9 @@ RUN corepack enable && corepack prepare pnpm@8.14.0 --activate && pnpm install
 # Copy all source code
 COPY . .
 
-# Build-time environment variables for frontend
-ENV VITE_PUBLIC_URL=https://your-app-name.onrender.com
-ENV VITE_API_URL=https://your-app-name.onrender.com/api
+# Build-time environment variables for frontend (Render Dashboard vars will override these)
+ENV VITE_PUBLIC_URL=https://DeduQuiz.onrender.com
+ENV VITE_API_URL=https://DeduQuiz.onrender.com/api
 ENV VITE_REDIS_URL=redis://red-d3q5oiripnbc73aarbsg:6379
 ENV NODE_ENV=production
 ENV PORT=10000
