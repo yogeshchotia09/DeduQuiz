@@ -33,7 +33,37 @@ RUN corepack enable && corepack prepare pnpm@8.14.0 --activate && pnpm i
 COPY . .
 
 # build the application
+FROM node:18
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json pnpm-lock.yaml* ./
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install dependencies
+RUN pnpm install
+
+# Copy source code
+COPY . .
+
+# Build-time env vars for frontend
+ENV VITE_PUBLIC_URL=https://your-app-name.onrender.com
+ENV VITE_API_URL=https://your-app-name.onrender.com/api
+ENV VITE_REDIS_URL=redis://red-d3q5oiripnbc73aarbsg:6379
+
+# Build frontend
 RUN pnpm run build
+
+# Set production env
+ENV NODE_ENV=production
+ENV PORT=10000
+
+EXPOSE 10000
+
+CMD ["pnpm", "start"]
 
 ### Serve Step
 # pull the Node.js Docker image
